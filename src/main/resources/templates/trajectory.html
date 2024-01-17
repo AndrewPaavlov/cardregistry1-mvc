@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Отслеживание карт</title>
+</head>
+<body>
+<div class="accordion" id="accordionSearch" style="margin: 0 auto; width: 80%;">
+    <div class="accordion-item">
+
+        <h2 class="accordion-header" id="headingOne">
+            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                Поиск истории карточки по номеру
+            </button>
+        </h2>
+
+        <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+            <div class="mb-3">
+                <label for="cardNumber" class="form-label">Номер карточки</label>
+                <input type="text" id="cardNumber" name="cardNumber" class="form-control" required>
+            </div>
+            <button type="button" class="btn btn-primary" onclick="submitForm()">Найти</button>
+        </div>
+        <div th:if="${history}">
+            <h2>Информация о движении карточки</h2>
+            <div th:each="item : ${history}">
+                <p>Шаг<span th:text="${item.getDoctor().email+' Отправил в: '+item.getNextRoom()+' '+item.getMovementTime()}"></span></p>
+            </div>
+        </div>
+        <script>
+            function submitForm() {
+                var inputVal = document.getElementById('cardNumber').value;
+                var url = '/trajectory/' + encodeURIComponent(inputVal);
+                window.location.href = url;
+            }
+        </script>
+
+    </div>
+</div>
+</body>
+</html>
